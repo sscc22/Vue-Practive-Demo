@@ -74,6 +74,37 @@ export default {
 
 ```
 에서
+```
+<template>
+  <div>{{ fullName }}</div>
+</template>
+
+<script setup>
+import { ref, computed, onMounted } from 'vue';
+
+const firstName = ref('Kyungsu');
+const lastName = ref('Lee');
+
+const fullName = computed(() => `${firstName.value} ${lastName.value}`);
+
+onMounted(() => {
+  setTimeout(() => {
+    firstName.value = 'KSL';
+  }, 2000);
+});
+</script>
+
+
+```
+로 변환
+
+### E03Binding
+```
+```
+에서
+```
+```
+로 변환
 
 ## Result IMG
 ### E-01-instance.vue 변환후 실행화면
