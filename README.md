@@ -281,7 +281,7 @@ const count = ref(0)
 
 ```
 로 변환
-###example3
+### example3
 #### ChildComponent
 ```
 <!-- ChildComponent.vue -->
@@ -378,6 +378,630 @@ function handleEvent(payload) {
 ```
 로 변환
 
+### example4
+#### parent
+```
+<!-- ParentComponent.vue -->
+<template>
+  <div>
+    <ChildComponent1 />
+  </div>
+</template>
+
+<script>
+
+import ChildComponent1 from "@/components/example4/ChildComponent1.vue";
+
+export default {
+  name: "E06ParentComponent",
+  provide() {
+    return {
+      sharedMessage: 'Hello from provide'
+    };
+  },
+  components: {
+    ChildComponent1
+  }
+};
+</script>
+```
+```
+<template>
+  <div>
+    <ChildComponent1 />
+  </div>
+</template>
+
+<script setup>
+import { provide } from 'vue'
+import ChildComponent1 from '@/components/example4/ChildComponent1.vue'
+
+provide('sharedMessage', 'Hello from provide')
+</script>
+
+```
+#### child1
+```
+<!-- ChildComponent.vue -->
+<template>
+  <h3> Child 1 </h3>
+  <div>
+    <p>{{ sharedMessage }}</p>
+  </div>
+
+  <h3> Child 2 </h3>
+  <div>
+    <ChildComponent2 />
+  </div>
+</template>
+
+<script>
+import ChildComponent2 from "@/components/example4/ChildComponent2.vue";
+
+export default {
+  components: {ChildComponent2},
+  inject: ['sharedMessage']
+};
+</script>
+
+
+<style scoped>
+p {
+  color: red;
+}
+</style>
+```
+```
+<template>
+  <h3>Child 1</h3>
+  <div>
+    <p>{{ sharedMessage }}</p>
+  </div>
+
+  <h3>Child 2</h3>
+  <div>
+    <ChildComponent2 />
+  </div>
+</template>
+
+<script setup>
+import { inject } from 'vue'
+import ChildComponent2 from '@/components/example4/ChildComponent2.vue'
+
+const sharedMessage = inject('sharedMessage')
+</script>
+
+<style scoped>
+p {
+  color: red;
+}
+</style>
+
+```
+#### child2
+```
+<!-- ChildComponent.vue -->
+<template>
+  <div>
+    <p>{{ sharedMessage }}</p>
+  </div>
+</template>
+
+<script>
+export default {
+  inject: ['sharedMessage']
+};
+</script>
+
+<style scoped>
+  p {
+    font-size: 1.5rem;
+  }
+</style>
+```
+```
+<template>
+  <div>
+    <p>{{ sharedMessage }}</p>
+  </div>
+</template>
+
+<script setup>
+import { inject } from 'vue'
+
+const sharedMessage = inject('sharedMessage')
+</script>
+
+<style scoped>
+p {
+  font-size: 1.5rem;
+}
+</style>
+
+```
+
+### example5
+#### E07
+```
+<template>
+  <div>
+    <h2>{{ title }}</h2>
+    <p>Full Name: {{ fullName }}</p>
+    <input v-model="firstName" placeholder="First Name" />
+    <input v-model="lastName" placeholder="Last Name" />
+    <button @click="greet">Greet</button>
+    <p>Greeting Count: {{ greetCount }}</p>
+    <p>{{ message }}</p>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'E07OptionsApi',
+
+  props: {
+    title: {
+      type: String,
+      default: 'User Information'
+    }
+  },
+
+  data() {
+    return {
+      firstName: 'John',
+      lastName: 'Doe',
+      greetCount: 0,
+      message: ''
+    };
+  },
+
+  computed: {
+    fullName() {
+      return `${this.firstName} ${this.lastName}`;
+    }
+  },
+
+  methods: {
+    greet() {
+      this.greetCount++;
+      this.message = `Hello, ${this.fullName}!`;
+    },
+    resetGreetCount() {
+      this.greetCount = 0;
+    }
+  },
+
+  watch: {
+    greetCount(newValue, oldValue) {
+      console.log(`Greet count changed from ${oldValue} to ${newValue}`);
+      if (newValue >= 3) {
+        this.message = "That's enough greetings for now!";
+      }
+    }
+  },
+
+  beforeCreate() {
+    console.log('beforeCreate hook');
+  },
+
+  created() {
+    console.log('created hook');
+  },
+
+  beforeMount() {
+    console.log('beforeMount hook');
+  },
+
+  mounted() {
+    console.log('mounted hook');
+  },
+
+  beforeUpdate() {
+    console.log('beforeUpdate hook');
+  },
+
+  updated() {
+    console.log('updated hook');
+  },
+
+  beforeUnmount() {
+    console.log('beforeUnmount hook');
+  },
+
+  unmounted() {
+    console.log('unmounted hook');
+  }
+};
+</script>
+
+```
+```
+<template>
+  <div>
+    <h2>{{ title }}</h2>
+    <p>Full Name: {{ fullName }}</p>
+    <input v-model="firstName" placeholder="First Name" />
+    <input v-model="lastName" placeholder="Last Name" />
+    <button @click="greet">Greet</button>
+    <p>Greeting Count: {{ greetCount }}</p>
+    <p>{{ message }}</p>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'E07OptionsApi',
+
+  props: {
+    title: {
+      type: String,
+      default: 'User Information'
+    }
+  },
+
+  data() {
+    return {
+      firstName: 'John',
+      lastName: 'Doe',
+      greetCount: 0,
+      message: ''
+    }
+  },
+
+  computed: {
+    fullName() {
+      return `${this.firstName} ${this.lastName}`
+    }
+  },
+
+  methods: {
+    greet() {
+      this.greetCount++
+      this.message = `Hello, ${this.fullName}!`
+    },
+    resetGreetCount() {
+      this.greetCount = 0
+    }
+  },
+
+  watch: {
+    greetCount(newValue, oldValue) {
+      console.log(`Greet count changed from ${oldValue} to ${newValue}`)
+      if (newValue >= 3) {
+        this.message = "That's enough greetings for now!"
+      }
+    }
+  },
+
+  beforeMount() {
+    console.log('beforeMount hook')
+  },
+  mounted() {
+    console.log('mounted hook')
+  },
+  beforeUpdate() {
+    console.log('beforeUpdate hook')
+  },
+  updated() {
+    console.log('updated hook')
+  },
+  beforeUnmount() {
+    console.log('beforeUnmount hook')
+  },
+  unmounted() {
+    console.log('unmounted hook')
+  }
+}
+</script>
+
+```
+#### E08
+```
+<template>
+  <div>
+    <h2>{{ title }}</h2>
+    <p>Full Name: {{ fullName }}</p>
+    <input v-model="firstName" placeholder="First Name" />
+    <input v-model="lastName" placeholder="Last Name" />
+    <button @click="greet">Greet</button>
+    <p>Greeting Count: {{ greetCount }}</p>
+    <p>{{ message }}</p>
+  </div>
+</template>
+
+<script>
+import { ref, computed, watch, onBeforeMount, onMounted, onBeforeUpdate, onUpdated, onBeforeUnmount, onUnmounted } from 'vue';
+
+export default {
+  name: 'E08CompositionApi',
+
+  props: {
+    title: {
+      type: String,
+      default: 'User Information'
+    }
+  },
+
+  setup(props) {
+    // 반응형 상태 정의
+    const firstName = ref('John');
+    const lastName = ref('Doe');
+    const greetCount = ref(0);
+    const message = ref('');
+
+    // 계산된 속성
+    const fullName = computed(() => `${firstName.value} ${lastName.value}`);
+
+    // 메서드 정의
+    const greet = () => {
+      greetCount.value++;
+      message.value = `Hello, ${fullName.value}!`;
+    };
+
+    const resetGreetCount = () => {
+      greetCount.value = 0;
+    };
+
+    // 감시자(watch) 설정
+    watch(greetCount, (newValue, oldValue) => {
+      console.log(`Greet count changed from ${oldValue} to ${newValue}`);
+      if (newValue >= 3) {
+        message.value = "That's enough greetings for now!";
+      }
+    });
+
+    // 라이프사이클 훅 정의
+    onBeforeMount(() => {
+      console.log('beforeMount hook');
+    });
+
+    onMounted(() => {
+      console.log('mounted hook');
+    });
+
+    onBeforeUpdate(() => {
+      console.log('beforeUpdate hook');
+    });
+
+    onUpdated(() => {
+      console.log('updated hook');
+    });
+
+    onBeforeUnmount(() => {
+      console.log('beforeUnmount hook');
+    });
+
+    onUnmounted(() => {
+      console.log('unmounted hook');
+    });
+
+    return {
+      firstName,
+      lastName,
+      greetCount,
+      message,
+      fullName,
+      greet,
+      resetGreetCount,
+    };
+  }
+};
+</script>
+
+```
+```
+<template>
+  <div>
+    <h2>{{ title }}</h2>
+    <p>Full Name: {{ fullName }}</p>
+    <input v-model="firstName" placeholder="First Name" />
+    <input v-model="lastName" placeholder="Last Name" />
+    <button @click="greet">Greet</button>
+    <p>Greeting Count: {{ greetCount }}</p>
+    <p>{{ message }}</p>
+  </div>
+</template>
+
+<script>
+import { ref, computed, watch, onBeforeMount, onMounted, onBeforeUpdate, onUpdated, onBeforeUnmount, onUnmounted } from 'vue'
+
+export default {
+  name: 'E08CompositionApi',
+
+  props: {
+    title: {
+      type: String,
+      default: 'User Information'
+    }
+  },
+
+  setup(props) {
+    const firstName = ref('John')
+    const lastName = ref('Doe')
+    const greetCount = ref(0)
+    const message = ref('')
+
+    const fullName = computed(() => `${firstName.value} ${lastName.value}`)
+
+    const greet = () => {
+      greetCount.value++
+      message.value = `Hello, ${fullName.value}!`
+    }
+
+    const resetGreetCount = () => {
+      greetCount.value = 0
+    }
+
+    watch(greetCount, (newValue, oldValue) => {
+      console.log(`Greet count changed from ${oldValue} to ${newValue}`)
+      if (newValue >= 3) {
+        message.value = "That's enough greetings for now!"
+      }
+    })
+
+    onBeforeMount(() => console.log('beforeMount hook'))
+    onMounted(() => console.log('mounted hook'))
+    onBeforeUpdate(() => console.log('beforeUpdate hook'))
+    onUpdated(() => console.log('updated hook'))
+    onBeforeUnmount(() => console.log('beforeUnmount hook'))
+    onUnmounted(() => console.log('unmounted hook'))
+
+    return {
+      ...props,
+      firstName,
+      lastName,
+      greetCount,
+      message,
+      fullName,
+      greet,
+      resetGreetCount
+    }
+  }
+}
+</script>
+
+```
+#### E09
+```
+<script>
+export default {
+  name: 'E09CompositionApi'
+}
+</script>
+
+
+<script setup>
+import { ref, computed, watch, onBeforeMount, onMounted, onBeforeUpdate, onUpdated, onBeforeUnmount, onUnmounted, defineProps } from 'vue';
+
+// props 정의
+const props = defineProps({
+  title: {
+    type: String,
+    default: 'User Information'
+  }
+});
+
+// 반응형 상태 정의
+const firstName = ref('John');
+const lastName = ref('Doe');
+const greetCount = ref(0);
+const message = ref('');
+
+// 계산된 속성
+const fullName = computed(() => `${firstName.value} ${lastName.value}`);
+
+// 메서드 정의
+const greet = () => {
+  greetCount.value++;
+  message.value = `Hello, ${fullName.value}!`;
+};
+
+const resetGreetCount = () => {
+  greetCount.value = 0;
+};
+
+// 감시자(watch) 설정
+watch(greetCount, (newValue, oldValue) => {
+  console.log(`Greet count changed from ${oldValue} to ${newValue}`);
+  if (newValue >= 3) {
+    message.value = "That's enough greetings for now!";
+  }
+});
+
+// 라이프사이클 훅 정의
+onBeforeMount(() => console.log('beforeMount hook'));
+onMounted(() => console.log('mounted hook'));
+onBeforeUpdate(() => console.log('beforeUpdate hook'));
+onUpdated(() => console.log('updated hook'));
+onBeforeUnmount(() => console.log('beforeUnmount hook'));
+onUnmounted(() => console.log('unmounted hook'));
+</script>
+
+<template>
+  <div>
+    <h2>{{ title }}</h2>
+    <p>Full Name: {{ fullName }}</p>
+    <input v-model="firstName" placeholder="First Name" />
+    <input v-model="lastName" placeholder="Last Name" />
+    <button @click="greet">Greet</button>
+    <p>Greeting Count: {{ greetCount }}</p>
+    <p>{{ message }}</p>
+  </div>
+</template>
+
+```
+```
+<template>
+  <div>
+    <h2>{{ title }}</h2>
+    <p>Full Name: {{ fullName }}</p>
+    <input v-model="firstName" placeholder="First Name" />
+    <input v-model="lastName" placeholder="Last Name" />
+    <button @click="greet">Greet</button>
+    <p>Greeting Count: {{ greetCount }}</p>
+    <p>{{ message }}</p>
+  </div>
+</template>
+
+<script>
+import { ref, computed, watch, onBeforeMount, onMounted, onBeforeUpdate, onUpdated, onBeforeUnmount, onUnmounted } from 'vue'
+
+export default {
+  name: 'E08CompositionApi',
+
+  props: {
+    title: {
+      type: String,
+      default: 'User Information'
+    }
+  },
+
+  setup(props) {
+    const firstName = ref('John')
+    const lastName = ref('Doe')
+    const greetCount = ref(0)
+    const message = ref('')
+
+    const fullName = computed(() => `${firstName.value} ${lastName.value}`)
+
+    const greet = () => {
+      greetCount.value++
+      message.value = `Hello, ${fullName.value}!`
+    }
+
+    const resetGreetCount = () => {
+      greetCount.value = 0
+    }
+
+    watch(greetCount, (newValue, oldValue) => {
+      console.log(`Greet count changed from ${oldValue} to ${newValue}`)
+      if (newValue >= 3) {
+        message.value = "That's enough greetings for now!"
+      }
+    })
+
+    onBeforeMount(() => console.log('beforeMount hook'))
+    onMounted(() => console.log('mounted hook'))
+    onBeforeUpdate(() => console.log('beforeUpdate hook'))
+    onUpdated(() => console.log('updated hook'))
+    onBeforeUnmount(() => console.log('beforeUnmount hook'))
+    onUnmounted(() => console.log('unmounted hook'))
+
+    return {
+      ...props,
+      firstName,
+      lastName,
+      greetCount,
+      message,
+      fullName,
+      greet,
+      resetGreetCount
+    }
+  }
+}
+</script>
+
+```
 ## Result IMG
 ### E-01-instance.vue 변환후 실행화면
 ![결과이미지](https://github.com/sscc22/Vue-Practive-Demo/blob/main/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202025-11-07%20165013.png)
