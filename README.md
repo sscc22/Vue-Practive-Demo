@@ -281,8 +281,8 @@ const count = ref(0)
 
 ```
 로 변환
-
-### ChildComponent
+###example3
+#### ChildComponent
 ```
 <!-- ChildComponent.vue -->
 <template>
@@ -318,10 +318,9 @@ function emitCustomEvent() {
   emit('custom-event', 'Hello from child')
 }
 </script>
-
 ```
 로 변환
-### ParentComponent
+#### ParentComponent
 ```
 <!-- ParentComponent.vue -->
 <template>
@@ -360,8 +359,8 @@ export default {
 <template>
   <div>
     <ChildComponent
-      :message="parentMessage"
-      @custom-event="handleEvent"
+        :message="parentMessage"
+        @custom-event="handleEvent"
     />
   </div>
 </template>
@@ -376,7 +375,6 @@ function handleEvent(payload) {
   console.log(payload)
 }
 </script>
-
 ```
 로 변환
 
