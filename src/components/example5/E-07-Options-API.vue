@@ -27,64 +27,51 @@ export default {
       lastName: 'Doe',
       greetCount: 0,
       message: ''
-    };
+    }
   },
 
   computed: {
     fullName() {
-      return `${this.firstName} ${this.lastName}`;
+      return `${this.firstName} ${this.lastName}`
     }
   },
 
   methods: {
     greet() {
-      this.greetCount++;
-      this.message = `Hello, ${this.fullName}!`;
+      this.greetCount++
+      this.message = `Hello, ${this.fullName}!`
     },
     resetGreetCount() {
-      this.greetCount = 0;
+      this.greetCount = 0
     }
   },
 
   watch: {
     greetCount(newValue, oldValue) {
-      console.log(`Greet count changed from ${oldValue} to ${newValue}`);
+      console.log(`Greet count changed from ${oldValue} to ${newValue}`)
       if (newValue >= 3) {
-        this.message = "That's enough greetings for now!";
+        this.message = "That's enough greetings for now!"
       }
     }
   },
 
-  beforeCreate() {
-    console.log('beforeCreate hook');
-  },
-
-  created() {
-    console.log('created hook');
-  },
-
   beforeMount() {
-    console.log('beforeMount hook');
+    console.log('beforeMount hook')
   },
-
   mounted() {
-    console.log('mounted hook');
+    console.log('mounted hook')
   },
-
   beforeUpdate() {
-    console.log('beforeUpdate hook');
+    console.log('beforeUpdate hook')
   },
-
   updated() {
-    console.log('updated hook');
+    console.log('updated hook')
   },
-
   beforeUnmount() {
-    console.log('beforeUnmount hook');
+    console.log('beforeUnmount hook')
   },
-
   unmounted() {
-    console.log('unmounted hook');
+    console.log('unmounted hook')
   }
-};
+}
 </script>
