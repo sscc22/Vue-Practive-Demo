@@ -1002,6 +1002,109 @@ export default {
 </script>
 
 ```
+
+### example6
+#### E10
+```
+<template>
+  <div>
+    <p>Count: {{ count }}</p>
+    <button @click="increment">Increment</button>
+  </div>
+</template>
+
+<script>
+import { ref } from 'vue';
+
+export default {
+  name: 'E10Ref',
+  setup() {
+    const count = ref(0); // ref로 원시 값 생성
+
+    const increment = () => {
+      count.value++; // ref는 .value를 통해 값을 접근
+    };
+
+    return {
+      count,
+      increment
+    };
+  }
+};
+</script>
+
+```
+#### E11
+```
+<template>
+  <div>
+    <p>Name: {{ person.name }}</p>
+    <p>Age: {{ person.age }}</p>
+    <button @click="incrementAge">Increment Age</button>
+  </div>
+</template>
+
+<script>
+import { reactive } from 'vue';
+
+export default {
+  name: 'E11Reactive',
+  setup() {
+    const person = reactive({
+      name: 'John Doe',
+      age: 30
+    });
+
+    const incrementAge = () => {
+      person.age++; // reactive는 바로 속성에 접근
+    };
+
+    return {
+      person,
+      incrementAge
+    };
+  }
+};
+</script>
+
+```
+#### E12
+```
+<template>
+  <div>
+    <input ref="inputField" type="text" placeholder="Click the button to focus" />
+    <button @click="focusInput">Focus Input</button>
+  </div>
+</template>
+
+<script>
+import { ref, onMounted } from 'vue';
+
+export default {
+  name: 'E12RefComponent',
+  setup() {
+    const inputField = ref(null); // DOM 요소에 대한 ref 선언
+
+    const focusInput = () => {
+      inputField.value.focus(); // ref를 통해 DOM 요소에 접근
+    };
+
+    onMounted(() => {
+      console.log(inputField); // 컴포넌트가 마운트된 후, inputField에 접근 가능
+      if(inputField.value) {
+        inputField.value.focus();
+      }
+    });
+
+    return {
+      inputField,
+      focusInput
+    };
+  }
+};
+</script>
+
+```
 ## Result IMG
 ### E-01-instance.vue 변환후 실행화면
 ![결과이미지](https://github.com/sscc22/Vue-Practive-Demo/blob/main/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202025-11-07%20165013.png)
